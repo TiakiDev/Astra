@@ -1,0 +1,23 @@
+package me.tiaki.listeners;
+
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+
+public class GuildReadyListener extends ListenerAdapter {
+    private static final String GUILD_ID = "1350551859341037730";
+    private static final String LOG_CHANNEL_ID = "1350848880794800199";
+
+    @Override
+    public void onReady(@NotNull ReadyEvent event) {
+        Guild guild = event.getJDA().getGuildById(GUILD_ID);
+        if (guild == null) return;
+
+        TextChannel logChannel = guild.getTextChannelById(LOG_CHANNEL_ID);
+        if (logChannel != null) {
+            logChannel.sendMessage("🟢 Bot został uruchomiony!").queue();
+        }
+    }
+}

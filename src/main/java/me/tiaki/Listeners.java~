@@ -1,0 +1,30 @@
+package me.tiaki;
+
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+
+public class Listeners extends ListenerAdapter {
+
+
+    @Override
+    public void onReady(@NotNull ReadyEvent event) {
+
+        Guild guild = event.getJDA().getGuildById("1350551859341037730"); // id serwera do testowiania
+        TextChannel logChannel = guild.getTextChannelById("1350848880794800199");
+
+        logChannel.sendMessage("Bot launched!").queue();
+    }
+
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+
+        if(event.getAuthor().isBot()) return;
+
+        //event.getMessage().reply("wypierdalaj cfelu").queue();
+
+    }
+}
