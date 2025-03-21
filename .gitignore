@@ -1,24 +1,34 @@
-# Compiled class file
+# Pliki konfiguracyjne
+src/main/resources/config.json
+
+# Logi i środowiska
+logs/
+.env
+
+# Pliki kompilacji
+target/
+bin/
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
-*.nar
 *.ear
-*.zip
-*.tar.gz
-*.rar
+*.nar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Pliki IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+
+# Systemowe
+.DS_Store
+Thumbs.db
+*.log
+
+# Inne
+*.swp
+*.swo
+*.bak
