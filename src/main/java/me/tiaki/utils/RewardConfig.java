@@ -2,6 +2,7 @@ package me.tiaki.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RewardConfig {
-    private static final String REWARD_FILE = "src/main/resources/rewards.json";
+    private static final String REWARD_FILE = "rewards.json";  // Zmieniono ścieżkę
     private static final Gson gson = new Gson();
     private static final TypeToken<Map<String, GuildConfig>> typeToken =
             new TypeToken<Map<String, GuildConfig>>() {};
@@ -38,7 +39,12 @@ public class RewardConfig {
     }
 
     private static Map<String, GuildConfig> loadAllConfigs() {
-        try (FileReader reader = new FileReader(REWARD_FILE)) {
+        File rewardFile = new File(REWARD_FILE);
+        if (!rewardFile.exists()) {
+            return new HashMap<>();
+        }
+
+        try (FileReader reader = new FileReader(rewardFile)) {
             return gson.fromJson(reader, typeToken.getType());
         } catch (IOException e) {
             return new HashMap<>();

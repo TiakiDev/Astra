@@ -8,17 +8,25 @@ import me.tiaki.utils.CommandManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import com.sun.net.httpserver.HttpServer;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.net.InetSocketAddress;
 
 public class Main {
+    private static JDA jda;
+    private static HttpServer server;
+
     public static void main(String[] args) {
         try {
             // Wczytaj token z konfiguracji
             String token = loadToken();
 
-            JDA jda = JDABuilder.createDefault(token)
+            // Uruchom serwer HTTP
+            startHttpServer();
+
+            // Zbuduj bota
+            jda = JDABuilder.createDefault(token)
                     .enableIntents(
                             GatewayIntent.MESSAGE_CONTENT,
                             GatewayIntent.GUILD_MEMBERS,
@@ -47,20 +55,48 @@ public class Main {
             jda.addEventListener(new MemberJoinListener());
             jda.addEventListener(new ProposalListener());
 
+            // Dodaj hook do bezpiecznego zamykania
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                if (jda != null) jda.shutdown();
+                if (server != null) server.stop(0);
+            }));
+
         } catch (Exception e) {
             System.err.println("BŁĄD INICJALIZACJI BOTA:");
             e.printStackTrace();
+            // Spróbuj zrestartować po 10 sekundach
+            try {
+                Thread.sleep(10000);
+                main(args);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
-    private static String loadToken() throws Exception {
-        File configFile = new File("src/main/resources/config.json");
+    private static void startHttpServer() throws Exception {
+        server = HttpServer.create(new InetSocketAddress(8080), 0);
+        server.createContext("/", exchange -> {
+            String response = "Bot działa!";
+            exchange.sendResponseHeaders(200, response.getBytes().length);
+            exchange.getResponseBody().write(response.getBytes());
+            exchange.close();
+        });
+        server.start();
+        System.out.println("Serwer HTTP uruchomiony na porcie 8080");
+    }
 
-        if (!configFile.exists()) {
+    private static String loadToken() throws Exception {
+        // Użyj ClassLoader, aby wczytać plik jako zasób
+        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("config.json");
+
+        if (inputStream == null) {
             throw new RuntimeException("Brak pliku config.json w folderze resources!");
         }
 
-        JsonObject config = new Gson().fromJson(new FileReader(configFile), JsonObject.class);
+        // Wczytaj zawartość pliku
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        JsonObject config = new Gson().fromJson(reader, JsonObject.class);
 
         if (!config.has("token")) {
             throw new RuntimeException("Brak tokenu w pliku config.json!");
