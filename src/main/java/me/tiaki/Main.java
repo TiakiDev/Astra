@@ -46,6 +46,7 @@ public class Main {
             commandManager.add(new DailyRewardCommand());
             commandManager.add(new InventoryCommand());
             commandManager.add(new RewardsCommand());
+            commandManager.add(new HelpCommand());
 
             // Rejestracja listenerów
             jda.addEventListener(commandManager);
@@ -64,7 +65,6 @@ public class Main {
         } catch (Exception e) {
             System.err.println("BŁĄD INICJALIZACJI BOTA:");
             e.printStackTrace();
-            // Spróbuj zrestartować po 10 sekundach
             try {
                 Thread.sleep(10000);
                 main(args);

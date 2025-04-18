@@ -1,6 +1,8 @@
 package me.tiaki.listeners;
 
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.ConfigUtils;
+import me.tiaki.utils.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -15,7 +17,6 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import java.util.EnumSet;
-import java.awt.Color;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 public class TicketListener extends ListenerAdapter {
@@ -32,7 +33,7 @@ public class TicketListener extends ListenerAdapter {
                     ? event.getGuild().getCategoryById(categoryId)
                     : null;
 
-            event.getGuild().createTextChannel("📦zamówienie-" + member.getEffectiveName())
+            event.getGuild().createTextChannel("📦" + member.getEffectiveName())
                     .setParent(category)
                     .addPermissionOverride(member, EnumSet.of(Permission.VIEW_CHANNEL), null)
                     .addPermissionOverride(event.getGuild().getPublicRole(), null, EnumSet.of(Permission.VIEW_CHANNEL))
@@ -69,7 +70,7 @@ public class TicketListener extends ListenerAdapter {
         // Tworzenie embeda powitalnego
         EmbedBuilder welcomeEmbed = new EmbedBuilder()
                 .setTitle("<:astra:1351298307875668119> Witaj w systemie zamówień!")
-                .setColor(new Color(161, 22, 196))
+                .setColor(BotConstants.PRIMARY_COLOR)
                 .setDescription("Wybierz kategorię poniżej aby kontynuować:")
                 .addField("Dostępne opcje", "• Konto Steam\n• Konto Riot Games\n• Inne", false)
                 .setFooter("System zamówień • v1.0")
@@ -89,12 +90,12 @@ public class TicketListener extends ListenerAdapter {
                 .addActionRow(menu)
                 .queue();
 
-        // Embed potwierdzenia utworzenia ticketu
         EmbedBuilder confirmationEmbed = new EmbedBuilder()
                 .setTitle("✅ Zamówienie utworzone!")
-                .setColor(Color.GREEN)
+                .setColor(BotConstants.SUCCESS_COLOR)
                 .setDescription("Twoje zamówienie: " + channel.getAsMention())
-                .addField("Co dalej?", "1. Wybierz kategorię z listy\n2. Wypełnij formularz\n3. Czekaj na kontakt administracji", false);
+                .addField("Co dalej?", "1. Wybierz kategorię z listy\n2. Wypełnij formularz\n3. Czekaj na kontakt administracji", false)
+                .setImage(BotConstants.SEPARATOR_IMAGE);
 
         event.replyEmbeds(confirmationEmbed.build())
                 .setEphemeral(true)

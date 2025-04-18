@@ -1,6 +1,7 @@
 package me.tiaki.commands;
 
 import me.tiaki.ICommand;
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.RewardConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -13,8 +14,6 @@ import java.util.Map;
 
 
 public class RewardsCommand implements ICommand {
-
-    private static final Color EMBED_COLOR = new Color(161, 22, 196);
 
     @Override
     public String getName() {
@@ -43,7 +42,7 @@ public class RewardsCommand implements ICommand {
         Map<String, Double> chances = config.chances;
 
         EmbedBuilder embed = new EmbedBuilder()
-                .setColor(EMBED_COLOR)
+                .setColor(BotConstants.PRIMARY_COLOR)
                 .setTitle("🎁 Dostępne nagrody")
                 .setImage("https://i.imgur.com/lHkRUg1.png")
                 .setFooter("Szanse na wygraną • " + event.getGuild().getName());

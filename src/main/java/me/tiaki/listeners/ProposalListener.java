@@ -1,5 +1,6 @@
 package me.tiaki.listeners;
 
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.ConfigUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -36,21 +37,20 @@ public class ProposalListener extends ListenerAdapter {
         MessageEmbed embed = new EmbedBuilder()
                 .setAuthor(author.getName(), null, author.getAvatarUrl()) // Używamy getName() zamiast getAsMention()
                 .setDescription(message.getContentRaw())
-                .setColor(new Color(161, 22, 196))
-                .setImage("https://i.imgur.com/lHkRUg1.png")
-                .setFooter("Data publikacji ").setTimestamp(Instant.now()) // Dodajemy stopkę z tagiem użytkownika
+                .setColor(BotConstants.PRIMARY_COLOR)
+                .setImage(BotConstants.SEPARATOR_IMAGE)
+                .setFooter("Data publikacji ").setTimestamp(Instant.now())
                 .build();
 
         // Wysyłanie embeda
         TextChannel channel = event.getChannel().asTextChannel();
         channel.sendMessage(MessageCreateData.fromEmbeds(embed)).queue(sentMessage -> {
             // Dodawanie reakcji
-            sentMessage.addReaction(Emoji.fromFormatted("<:checkmark:1351969481978806383>")).queue();
-            sentMessage.addReaction(Emoji.fromFormatted("<:middle:1351969466916798625>")).queue();
-            sentMessage.addReaction(Emoji.fromFormatted("<:cross:1351969501541040159>")).queue();
+            sentMessage.addReaction(Emoji.fromFormatted(BotConstants.CHECKMARK_EMOJI)).queue();
+            sentMessage.addReaction(Emoji.fromFormatted(BotConstants.MIDDLE_EMOJI)).queue();
+            sentMessage.addReaction(Emoji.fromFormatted(BotConstants.CROSS_EMOJI)).queue();
         });
 
-        // Usuwanie oryginalnej wiadomości
         message.delete().queue();
     }
 }

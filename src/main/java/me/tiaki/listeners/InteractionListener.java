@@ -1,14 +1,12 @@
-// InteractionListener.java
+
 package me.tiaki.listeners;
 
-import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 public class InteractionListener extends ListenerAdapter {
 
@@ -23,8 +21,8 @@ public class InteractionListener extends ListenerAdapter {
             TextInput input = TextInput.create("dane", "Informacje", TextInputStyle.PARAGRAPH)
                     .setPlaceholder("""
                     Budżet: ...
-                    Konto FA/NFA: ...
                     Posiadane gry/skiny: ...
+                    Metoda płatnosci: ...
                     """)
                     .setRequired(true)
                     .build();
@@ -39,14 +37,6 @@ public class InteractionListener extends ListenerAdapter {
             event.reply("❌ Wystąpił błąd: " + e.getMessage())
                     .setEphemeral(true)
                     .queue();
-        }
-    }
-
-    @Override
-    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        if (event.getComponentId().equals("giveaway_join")) {
-            event.reply("Dołączyłeś do giveawayu! 🎉").setEphemeral(true).queue();
-            event.getMessage().addReaction(Emoji.fromUnicode("🎉")).queue();
         }
     }
 }

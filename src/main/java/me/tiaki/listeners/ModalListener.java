@@ -1,5 +1,6 @@
 package me.tiaki.listeners;
 
+import me.tiaki.utils.BotConstants;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -35,7 +36,7 @@ public class ModalListener extends ListenerAdapter {
             // Stwórz embed dla administracji
             EmbedBuilder orderEmbed = new EmbedBuilder()
                     .setTitle("<:box:1351555386452475954> NOWE ZAMÓWIENIE!")
-                    .setColor(new Color(161, 22, 196))
+                    .setColor(BotConstants.PRIMARY_COLOR)
                     .addField("Kategoria", category.toUpperCase() , false)
                     .addField("Szczegóły", "```\n" + data + "\n```", false)
                     .setImage("https://i.imgur.com/lHkRUg1.png")
@@ -52,7 +53,7 @@ public class ModalListener extends ListenerAdapter {
             // Potwierdź przyjęcie zamówienia
             EmbedBuilder userEmbed = new EmbedBuilder()
                     .setTitle("📩 Dziękujemy za zgłoszenie!")
-                    .setColor(0x00FF00)
+                    .setColor(BotConstants.PRIMARY_COLOR)
                     .setDescription("""
                     Twoje zamówienie zostało przyjęte!
                     Administrator skontaktuje się z Tobą w ciągu 24h
@@ -82,7 +83,7 @@ public class ModalListener extends ListenerAdapter {
 
             EmbedBuilder confirmationEmbed = new EmbedBuilder()
                     .setTitle("✅ Szczegóły zamówienia zostały zaktualizowane!")
-                    .setColor(0x00FF00)
+                    .setColor(BotConstants.PRIMARY_COLOR)
                     .setDescription("");
             // Potwierdź edycję
             event.replyEmbeds(confirmationEmbed.build())

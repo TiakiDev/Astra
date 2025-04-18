@@ -1,7 +1,9 @@
 package me.tiaki.commands;
 
 import me.tiaki.ICommand;
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.ConfigUtils;
+import me.tiaki.utils.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
@@ -9,12 +11,9 @@ import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import java.awt.Color;
 import java.util.List;
 
 public class ConfigCommand implements ICommand {
@@ -26,7 +25,7 @@ public class ConfigCommand implements ICommand {
 
     @Override
     public String getDescription() {
-        return "Konfiguracja ustawień bota";
+        return "Konfiguracja bota";
     }
 
     @Override
@@ -49,14 +48,12 @@ public class ConfigCommand implements ICommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-            event.reply("❌ Tylko administratorzy mogą używać tej komendy.")
-                    .setEphemeral(true).queue();
+            EmbedUtils.replyWithError(event, BotConstants.PERMISSION_ERROR);
             return;
         }
 
         String guildId = event.getGuild().getId();
 
-        // Aktualizacja ról i kanałów
         if (event.getOption("admin-role") != null) {
             Role role = event.getOption("admin-role").getAsRole();
             ConfigUtils.saveConfig(guildId, "admin-role", role.getId());
@@ -82,20 +79,6 @@ public class ConfigCommand implements ICommand {
             ConfigUtils.saveConfig(guildId, "proposal-channel", channel.getId());
         }
 
-
-
-        // Lepsza odpowiedź
-        EmbedBuilder embed = new EmbedBuilder()
-                .setTitle("✅ Konfiguracja zaktualizowana")
-                .setColor(Color.GREEN)
-                .addField("Nowe ustawienia",
-                        "Użyj `/info` aby zobaczyć aktualną konfigurację", false);
-
-        event.replyEmbeds(embed.build()).setEphemeral(true).queue();
+        EmbedUtils.replyWithSuccess(event, "Konfiguracja bota zaktualizowana.", "");
     }
-
-    private void saveAdminRole(String guildId, String roleId) {
-        ConfigUtils.saveConfig(guildId, "admin-role", roleId);
-    }
-
 }

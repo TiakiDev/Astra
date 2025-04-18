@@ -1,6 +1,7 @@
 package me.tiaki.commands;
 
 import me.tiaki.ICommand;
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.RewardConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -16,7 +17,6 @@ import java.util.List;
 
 public class InventoryCommand implements ICommand {
 
-    private static final Color EMBED_COLOR = new Color(161, 22, 196);
 
     @Override
     public String getName() { return "inventory"; }
@@ -39,10 +39,10 @@ public class InventoryCommand implements ICommand {
         Map<String, Integer> inventory = config.userInventories.getOrDefault(userId, new HashMap<>());
 
         EmbedBuilder embed = new EmbedBuilder()
-                .setColor(EMBED_COLOR)
+                .setColor(BotConstants.PRIMARY_COLOR)
                 .setTitle("🎒 Ekwipunek " + event.getUser().getName())
                 .setThumbnail(event.getUser().getEffectiveAvatarUrl())
-                .setImage("https://i.imgur.com/lHkRUg1.png")
+                .setImage(BotConstants.SEPARATOR_IMAGE)
                 .setFooter("Ekwipunek • " + event.getGuild().getName());
 
         if (inventory.isEmpty()) {

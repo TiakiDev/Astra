@@ -1,6 +1,8 @@
 package me.tiaki.commands;
 
 import me.tiaki.ICommand;
+import me.tiaki.utils.BotConstants;
+import me.tiaki.utils.EmbedUtils;
 import me.tiaki.utils.RewardConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,7 +16,6 @@ import java.util.List;
 
 public class DailyRewardCommand implements ICommand {
 
-    private static final Color EMBED_COLOR = new Color(161, 22, 196);
     private static final String BANNER_IMAGE = "https://s6.gifyu.com/images/bzELo.gif";
     private static final String CLOCK_EMOJI = "<:alarmclock:1352407829830565918>";
 
@@ -48,7 +49,7 @@ public class DailyRewardCommand implements ICommand {
     private boolean checkChannel(SlashCommandInteractionEvent event, RewardConfig.GuildConfig config) {
         if (config.channelId != null && !event.getChannel().getId().equals(config.channelId)) {
             EmbedBuilder embed = new EmbedBuilder()
-                    .setColor(EMBED_COLOR)
+                    .setColor(BotConstants.PRIMARY_COLOR)
                     .setTitle("🚫 Nieprawidłowy kanał")
                     .setDescription("**Poprawny kanał:**\n" + event.getGuild().getTextChannelById(config.channelId).getAsMention())
                     .addField("Dlaczego?", "Dzienną nagrodę można odbierać tylko na dedykowanym kanale", false)
@@ -74,11 +75,11 @@ public class DailyRewardCommand implements ICommand {
             );
 
             EmbedBuilder embed = new EmbedBuilder()
-                    .setColor(EMBED_COLOR)
+                    .setColor(BotConstants.PRIMARY_COLOR)
                     .setTitle(CLOCK_EMOJI + " Zbyt szybko!")
                     .setDescription("**Czas do kolejnej nagrody:**\n" + timeLeft)
                     .addField("Następna próba", "<t:" + (lastClaim + 86400) + ":R>", false)
-                    .setImage("https://i.imgur.com/lHkRUg1.png")
+                    .setImage(BotConstants.SEPARATOR_IMAGE)
                     .setFooter(event.getUser().getName() + " • Codzienne nagrody", event.getUser().getAvatarUrl());
 
             event.replyEmbeds(embed.build()).setEphemeral(true).queue();
@@ -113,7 +114,7 @@ public class DailyRewardCommand implements ICommand {
         String chanceInfo = getChanceInfo(reward, config);
 
         EmbedBuilder embed = new EmbedBuilder()
-                .setColor(EMBED_COLOR)
+                .setColor(BotConstants.PRIMARY_COLOR)
                 .setImage(BANNER_IMAGE)
                 .setFooter("Daily" + " • " + event.getGuild().getName());
 

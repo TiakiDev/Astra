@@ -1,6 +1,7 @@
 package me.tiaki.commands;
 
 import me.tiaki.ICommand;
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.ConfigUtils;
 import me.tiaki.utils.RewardConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -84,7 +85,7 @@ public class InfoCommand implements ICommand {
         // Stwórz embed
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("⚙️ Aktualna konfiguracja")
-                .setColor(new Color(161, 22, 196))
+                .setColor(BotConstants.PRIMARY_COLOR)
                 .addField("Rola administracyjna",
                         adminRole != null ? adminRole.getAsMention() : "Nie ustawiono",
                         false)

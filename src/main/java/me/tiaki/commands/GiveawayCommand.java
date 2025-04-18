@@ -1,6 +1,7 @@
 package me.tiaki.commands;
 
 import me.tiaki.ICommand;
+import me.tiaki.utils.BotConstants;
 import me.tiaki.utils.ConfigUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Role;
@@ -71,7 +72,7 @@ public class GiveawayCommand implements ICommand {
             EmbedBuilder embed = new EmbedBuilder()
                     .setTitle("🎊 **Giveaway** 🎊")
                     .setDescription("Nagroda: **" + prize + "**\n\nKliknij reakcję 🎉, aby dołączyć!")
-                    .setColor(new Color(161, 22, 196))
+                    .setColor(BotConstants.PRIMARY_COLOR)
                     .setFooter("Giveaway zakończy się")
                     .setThumbnail("https://i.imgur.com/8k0wCWA.png")
                     .setTimestamp(Instant.now().plus(duration, ChronoUnit.MINUTES));
@@ -116,7 +117,7 @@ public class GiveawayCommand implements ICommand {
                 EmbedBuilder embed = new EmbedBuilder()
                         .setTitle("🎊 **Giveaway zakończony** 🎊")
                         .setDescription("Nagroda: **" + prize + "**\n\n**Zwycięzca:** " + winner.getAsMention())
-                        .setColor(new Color(161, 22, 196))
+                        .setColor(BotConstants.PRIMARY_COLOR)
                         .setFooter("Giveaway zakończył się")
                         .setThumbnail("https://i.imgur.com/8k0wCWA.png")
                         .setTimestamp(Instant.now());
